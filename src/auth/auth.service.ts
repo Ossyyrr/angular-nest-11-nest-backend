@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
-import { CreateUserDto, LoginDto, RegisterUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, LoginDto, RegisterUserDto } from './dto';
 import { User } from './entities/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload';
 import { LoginResponse } from './interfaces/login.response';
@@ -77,21 +77,27 @@ export class UserService {
     };
   }
 
+  async findUserById(id: string) {
+    const user = await this.userModel.findById(id);
+    const { password, ...rest } = user.toJSON();
+    return rest;
+  }
+
   findAll(): Promise<User[]> {
     return this.userModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} auth`;
+  // }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} auth`;
-  }
+  // update(id: number, updateUserDto: UpdateUserDto) {
+  //   return `This action updates a #${id} auth`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} auth`;
+  // }
 
   getJwToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
