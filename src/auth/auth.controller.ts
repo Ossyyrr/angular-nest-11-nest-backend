@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserService } from './auth.service';
+import { RegisterUserDto } from './dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login-dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
@@ -24,6 +25,11 @@ export class AuthController {
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('/register')
+  register(@Body() registerUserDto: RegisterUserDto) {
+    return this.authService.register(registerUserDto);
   }
 
   @Get()
